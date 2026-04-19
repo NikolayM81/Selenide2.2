@@ -7,11 +7,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
-import java.security.Key;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 
@@ -25,7 +25,7 @@ public class OrderCardDeliveryTest {
         return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
     }
     @Test
-    public void enteringValidValuesTest(){
+    public void enteringValidValuesTest() {
         $("[data-test-id='city'] input").setValue("Москва");
         String planningDate = generateDate(5, "dd.MM.yyyy");
         $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE).setValue(planningDate);
@@ -33,6 +33,6 @@ public class OrderCardDeliveryTest {
         $("[data-test-id='phone'] input").setValue("+79998887766");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
-        $(".notification__content").should(Condition.visible, Duration.ofSeconds(15)).should(Condition.text("Встреча успешно запланирована на " + planningDate));
+        $(".notification__content").should(Condition.visible, Duration.ofSeconds(15)).should(text("Встреча успешно забронирована на " + planningDate));
     }
 }
